@@ -16,6 +16,17 @@ module.exports = {
       },
     },
     {
+      resolve: "gatsby-source-graphql",
+      options: {
+        // This type will contain remote schema Query type
+        typeName: "YELP",
+        // This is the field under which it's accessible
+        fieldName: "yelp",
+        // URL to query from
+        url: "https://api.yelp.com/v3/graphql`"
+      },
+    },
+    {
       resolve: 'gatsby-source-filesystem',
       options: {
         path: `${__dirname}/src/pages`,

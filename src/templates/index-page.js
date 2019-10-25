@@ -40,7 +40,10 @@ export const IndexPageTemplate = ({ image, title, subheading }) => {
     console.log("find: " + find + " and location: " + nearLocation);
     setFind("");
     setNearLocation("");
-    navigate("/restaurants/")
+    navigate("/restaurants/",
+    {
+      state: { find, nearLocation },
+    });
   }
 
   return (
