@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
+import DirectionsList from "../../components/DirectionsList";
 
 class Directions extends React.Component {
   state = {
@@ -8,32 +9,32 @@ class Directions extends React.Component {
     error: false,
     startAddress: this.props.location.state.startAddress,
     business: this.props.location.state.business,
-    directions: ""
+    directions: null
   };
 
   // This data is fetched at run time on the client.
   fetchDirections = () => {
     var addressString = `${this.state.business.location.display_address[0]}, ${this.state.business.location.display_address[1]}`;
     this.setState({ loading: true });
-    console.log(process);
     axios
       .get(
         `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${this.state.startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${process.env.BING_API_KEY}`
       )
       .then(res => {
-        var directions = res.data.resourceSets[0].resources[0];
-        console.log(directions);
+        console.log("Response from Bing Maps: ");
+        console.log(res);
         this.setState({
           loading: false,
-          directions: directions
+          directions: res.data.resourceSets[0].resources[0]
         });
       })
       .catch(error => {
-        this.setState({ loading: false, error });
+        this.setState({ loading: false, error: true });
       });
   };
 
   componentDidMount() {
+    console.log(this.props);
     this.fetchDirections();
   }
 
@@ -55,22 +56,22 @@ class Directions extends React.Component {
               backgroundColor: "#F7882F",
               fontWeight: 600,
               fontSize: "30px",
-              width: "200px",
+              width: "40%",
               margin: "auto",
               textAlign: "center",
               padding: "10px"
             }}
           >
-            Directions
+            Directions to { this.state.business.name }
           </h1>
           <div
             style={{ textAlign: "center", width: "600px", margin: "50px auto" }}
           >
             <div>
               {this.state.loading ? (
-                <p>Please hold, searching for your new favorite restaurants!</p>
+                <p>Please hold, searching for directions!</p>
               ) : !this.state.error ? (
-                <p>Here for directions</p>
+                <DirectionsList directions={this.state.directions} />
               ) : (
                 <p>Error trying to fetch directions from the Bing Maps API</p>
               )}

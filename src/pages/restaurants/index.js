@@ -27,8 +27,8 @@ class Restaurants extends React.Component {
       )
       .then(res => {
         var businesses = res.data.businesses;
+        console.log("Yelp API Response for Restaurants: ");
         console.log(businesses);
-        console.log(businesses.length);
         this.setState({
           loading: false,
           businesses: businesses
