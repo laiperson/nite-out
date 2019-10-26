@@ -74,12 +74,7 @@ class Restaurants extends React.Component {
               {this.state.loading ? (
                 <p>Please hold, searching for your new favorite restaurants!</p>
               ) : !this.state.error ? (
-                <>
-                  <p>
-                    Choose the restaurant you would like to view the commute for...
-                  </p>
-                  <RestaurantList businesses={this.state.businesses} />
-                </>
+                <RestaurantList businesses={this.state.businesses} />
               ) : (
                 <p>Error trying to fetch restaurants from the Yelp API</p>
               )}

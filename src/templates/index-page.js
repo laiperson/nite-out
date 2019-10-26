@@ -37,7 +37,6 @@ export const IndexPageTemplate = ({ image, title, subheading }) => {
   const [nearLocation, setNearLocation] = useState("");
 
   function searchSubmit(event) {
-    console.log("find: " + find + " and location: " + nearLocation);
     setFind("");
     setNearLocation("");
     navigate("/restaurants/",
@@ -193,13 +192,6 @@ export const pageQuery = graphql`
         description
         intro {
           blurbs {
-            image {
-              childImageSharp {
-                fluid(maxWidth: 240, quality: 64) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
             text
           }
           heading
