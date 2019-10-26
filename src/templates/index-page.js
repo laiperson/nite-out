@@ -99,7 +99,7 @@ export const IndexPageTemplate = ({ image, title, subheading }) => {
               <form className={classes.container} noValidate autoComplete="off">
                 <TextField
                   id="standard-name"
-                  label="Find..."
+                  label="Search restaurants by name, cuisine, etc."
                   value={find}
                   className={classes.textField}
                   margin="normal"

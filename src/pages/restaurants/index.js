@@ -21,25 +21,23 @@ class Restaurants extends React.Component {
         {
           headers: {
             Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-            "Access-Control-Allow-Origin":"*"
+            "Access-Control-Allow-Origin": "*"
           }
         }
       )
       .then(res => {
         var businesses = res.data.businesses;
         console.log(businesses);
+        console.log(businesses.length);
         this.setState({
           loading: false,
-          businesses: {
-            ...this.state.businesses,
-            businesses
-          }
-        })
+          businesses: businesses
+        });
       })
       .catch(error => {
         this.setState({ loading: false, error });
       });
-  }
+  };
 
   componentDidMount() {
     this.fetchRestaurants();
@@ -48,26 +46,44 @@ class Restaurants extends React.Component {
   render() {
     return (
       <div>
-        <Navbar/>
-        <div style={{ textAlign: "center", width: "600px", margin: "50px auto" }}>
-          <h1>Restaurants</h1>
-          <p>
-            Rick & Morty API data loads at build time. Dog API data loads at run
-            time.
-          </p>
-          <div>
-            {this.state.loading ? (
-              <p>Please hold, searching for your new favorite restaurants!</p>
-            ) :  this.state.businesses.businesses.length > 0 ? (
-              <>
-                <p>Got the restaurants</p>
-                <RestaurantList businesses={this.state.businesses} />
-              </>
-            ) : (
-              <>
-              <p>Error trying to fetch restaurants from the Yelp API</p>
-              </>
-            )}
+        <Navbar />
+        <div
+          className="margin-top-0"
+          style={{
+            backgroundColor: `#DCC7AA`,
+            minHeight: "95vh",
+            padding: "5%"
+          }}
+        >
+          <h1 style={{
+            color: "white", 
+            backgroundColor: "#F7882F", 
+            fontWeight: 600, 
+            fontSize: "30px", 
+            width: "200px", 
+            margin: "auto",
+            textAlign: "center",
+            padding: "10px"}}>
+            Restaurants
+          </h1>
+          <div
+            style={{ textAlign: "center", width: "600px", margin: "50px auto" }}
+          >
+            
+            <div>
+              {this.state.loading ? (
+                <p>Please hold, searching for your new favorite restaurants!</p>
+              ) : !this.state.error ? (
+                <>
+                  <p>
+                    Choose the restaurant you would like to view the commute for...
+                  </p>
+                  <RestaurantList businesses={this.state.businesses} />
+                </>
+              ) : (
+                <p>Error trying to fetch restaurants from the Yelp API</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
