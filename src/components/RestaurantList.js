@@ -8,7 +8,6 @@ class RestaurantList extends React.Component {
     super(props);
 
     this.getDirections = this.getDirections.bind(this);
-    this.fetchDirections = this.fetchDirections.bind(this);
   }
 
   getDirections(business) {
