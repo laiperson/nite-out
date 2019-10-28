@@ -6,14 +6,18 @@ class DirectionsList extends React.Component {
 
     const { directions } = this.props;
 
-    this.state = {
-      steps: directions.routeLegs[0].itineraryItems
-    };
+    if (directions.length == 0) {
+      this.state = {
+        steps: []
+      };
+    } else {
+      this.state = {
+        steps: directions.routeLegs[0].itineraryItems
+      };
+    }
   }
   render() {
-    console.log("this.props: ");
-    console.log(this.props);
-    if (this.state.steps !== null) {
+    if (this.state.steps.length > 0) {
       var directions = this.state.steps.map(step => {
         return (
           <div

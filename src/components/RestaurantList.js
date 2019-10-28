@@ -11,7 +11,7 @@ class RestaurantList extends React.Component {
   }
 
   getDirections(business) {
-    const startAddress = prompt("Please enter your starting address: ");
+    var startAddress = prompt("Please enter your starting address: ");
 
     while (startAddress === "") {
       startAddress = prompt("Please enter a none empty starting address: ");

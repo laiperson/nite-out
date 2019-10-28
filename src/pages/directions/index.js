@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Navbar from "../../components/Navbar";
 import DirectionsList from "../../components/DirectionsList";
 import axios from 'axios';
+import { navigate } from "@reach/router";
 
 class Directions extends React.Component {
   constructor(props) {
@@ -20,6 +21,10 @@ class Directions extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.location.state === null) {
+      navigate("/");
+      return;
+    }
     this.fetchDirections(this.props.location.state.startAddress, this.props.location.state.business);
     this.setState({ 
       startAddress: this.props.location.state.startAddress, 

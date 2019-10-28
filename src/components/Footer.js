@@ -11,7 +11,7 @@ const Footer = class extends React.Component {
                 <section className="menu">
                   <ul className="menu-list">
                     <li>
-                      <a href="https://github.com/BenWileyUMN/nite-out">LINK TO GITHUB REPO</a>
+                      <h1><a href="https://github.com/BenWileyUMN/nite-out">LINK TO GITHUB REPO</a></h1>
                     </li>
                   </ul>
                 </section>
