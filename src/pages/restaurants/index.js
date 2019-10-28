@@ -34,7 +34,7 @@ class Restaurants extends React.Component {
         `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="${find}"&location="${location}"&limit=10`,
         {
           headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_YELP_API_KEY}`,
+            Authorization: `Bearer ${process.env.GATSBY_YELP_API_KEY}`,
             "Access-Control-Allow-Origin": "*"
           }
         }

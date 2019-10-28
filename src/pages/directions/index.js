@@ -31,7 +31,7 @@ class Directions extends React.Component {
   // This data is fetched at run time on the client.
   fetchDirections(startAddress, business) {
     var addressString = `${business.location.display_address[0]}, ${business.location.display_address[1]}`;
-    var bingToken = process.env.REACT_APP_BING_API_KEY;
+    var bingToken = process.env.GATSBY_BING_API_KEY;
     this.setState({ loading: true });
     axios
       .get(
