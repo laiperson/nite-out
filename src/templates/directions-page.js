@@ -1,45 +1,96 @@
 import React from 'react'
+import { useState } from "react"
 import PropTypes from 'prop-types'
-import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import Content, { HTMLContent } from '../components/Content'
 
-export const DirectionsPageTemplate = ({ title, content, contentComponent }) => {
-  const PageContent = contentComponent || Content
+export const DirectionsPageTemplate = ({ location }) => {
+  const [directions, setDirections] = useState(null);
+  const [error, setError] = useState(true);
+  const [loading, setLoading] = useState(false);
 
+  const bingToken = process.env.REACT_APP_BING_API_KEY;
+  /*
+  function fetchDirections() {
+    console.log("here in fetchDirections in direction page with token: " + bingToken);
+    var addressString = `${location.business.location.display_address[0]}, ${location.business.location.display_address[1]}`;
+    setLoading(true);
+    axios
+      .get(
+        `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${location.state.startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${bingToken}`
+      )
+      .then(res => {
+        console.log("Response from Bing Maps: ");
+        console.log(res);
+        setDirections(res.data.resourceSets[0].resources[0]);
+        setLoading(false);
+      })
+      .catch(error => {
+        setLoading(false);
+        setError(true);
+      });
+  };
+  */
+  
   return (
-    <section className="section section--gradient">
-      <div className="container">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <div className="section">
-              <h2 className="title is-size-3 has-text-weight-bold is-bold-light">
-                {title}
-              </h2>
-              <PageContent className="content" content={content} />
+    <React.Fragment>
+      <div>
+        <Navbar />
+        <div
+          className="margin-top-0"
+          style={{
+            backgroundColor: `#DCC7AA`,
+            minHeight: "95vh",
+            padding: "5%"
+          }}
+        >
+          <h1
+            style={{
+              color: "white",
+              backgroundColor: "#F7882F",
+              fontWeight: 600,
+              fontSize: "30px",
+              width: "40%",
+              margin: "auto",
+              textAlign: "center",
+              padding: "10px"
+            }}
+          >
+            Directions to { this.state.business.name }
+          </h1>
+          <div
+            style={{ textAlign: "center", width: "600px", margin: "50px auto" }}
+          >
+            <div>
+              {(loading & (directions === null)) ? (
+                <p>Please hold, searching for directions!</p>
+              ) : (!error & (directions != null)) ? (
+                <DirectionsList directions={location.state.directions} />
+              ) : (
+                <p>Error trying to fetch directions from the Bing Maps API</p>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </section>
-  )
+    </React.Fragment>
+  );
 }
 
 DirectionsPageTemplate.propTypes = {
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string,
-  contentComponent: PropTypes.func,
+  location: PropTypes.object.isRequired()
 }
 
-const DirectionsPage = ({ data }) => {
+const DirectionsPage = ({ data, location }) => {
   const { markdownRemark: post } = data
 
   return (
-    <Layout>
+    <Layout location={this.props.location}>
       <DirectionsPageTemplate
         contentComponent={HTMLContent}
         title={post.frontmatter.title}
         content={post.html}
+        location={location}
       />
     </Layout>
   )
@@ -49,15 +100,4 @@ DirectionsPage.propTypes = {
   data: PropTypes.object.isRequired,
 }
 
-export default DirectionsPage
-
-export const directionsPageQuery = graphql`
-  query DirectionsPage($id: String!) {
-    markdownRemark(id: { eq: $id }) {
-      html
-      frontmatter {
-        title
-      }
-    }
-  }
-`
+export default DirectionsPage;

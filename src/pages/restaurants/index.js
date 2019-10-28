@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
 import RestaurantList from "../../components/RestaurantList";
 import Navbar from "../../components/Navbar";
+import axios from 'axios';
 
 class Restaurants extends React.Component {
   constructor(props) {
@@ -55,6 +55,7 @@ class Restaurants extends React.Component {
 
   render() {
     return (
+      <React.Fragment>
       <div>
         <Navbar />
         <div
@@ -92,6 +93,7 @@ class Restaurants extends React.Component {
           </div>
         </div>
       </div>
+    </React.Fragment>
     );
   }
 }

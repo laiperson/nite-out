@@ -1,7 +1,8 @@
 import React from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
 import Navbar from "../../components/Navbar";
 import DirectionsList from "../../components/DirectionsList";
+import axios from 'axios';
 
 class Directions extends React.Component {
   constructor(props) {
@@ -50,6 +51,9 @@ class Directions extends React.Component {
   }
 
   render() {
+    console.log("directions props");
+    console.log(this.props.location);
+
     return (
       <div>
         <Navbar />
@@ -62,10 +66,14 @@ class Directions extends React.Component {
           }}
         >
           <div
-            style={{ textAlign: "center", width: "600px", margin: "50px auto" }}
+            style={{
+              textAlign: "center",
+              width: "600px",
+              margin: "50px auto"
+            }}
           >
             <div>
-              {this.state.loading ? (
+              {this.state.loading & this.state.directions ? (
                 <p>Please hold, searching for directions!</p>
               ) : (this.state.directions !== null) & (this.state.business !== null) ? (
                 <>
@@ -95,5 +103,9 @@ class Directions extends React.Component {
     );
   }
 }
+
+Directions.propTypes = {
+  location: PropTypes.object.isRequired
+};
 
 export default Directions;
