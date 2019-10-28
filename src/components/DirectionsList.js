@@ -1,14 +1,20 @@
 import React from "react";
 
 class DirectionsList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-
+    console.log("directions list props:")
+    console.log(this.props);
     var directions = this.props.directions.routeLegs[0].itineraryItems.map(
       step => {
         return (
           <div
             style={{
+              display: "flex",
+              minHeight: "50px",
               backgroundColor: "white",
               witdh: "90%",
               padding: "5%",
@@ -26,7 +32,9 @@ class DirectionsList extends React.Component {
                 display: "inline-block"
               }}
             >
-              <h1 style={{ fontWeight: 600, color: "#6B7A8F" }}>{Math.round(step.travelDistance / 0.01) * 0.01} mi.</h1>
+              <h1 style={{ fontWeight: 600, color: "#6B7A8F" }}>
+                {Math.round(step.travelDistance / 0.01) * 0.01} mi.
+              </h1>
             </div>
 
             <div

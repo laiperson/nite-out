@@ -1,50 +1,32 @@
 import React from "react";
-import axios from "axios";
 import RestaurantList from "../../components/RestaurantList";
 import Navbar from "../../components/Navbar";
 
 class Restaurants extends React.Component {
-  state = {
-    loading: false,
-    error: false,
-    term: this.props.location.state.find,
-    location: this.props.location.state.nearLocation,
-    businesses: []
-  };
+  constructor(props) {
+    super(props);
 
-  // This data is fetched at run time on the client.
-  fetchRestaurants = () => {
-    this.setState({ loading: true });
-    axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="${this.state.term}"&location="${this.state.location}"&limit=10`,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-            "Access-Control-Allow-Origin": "*"
-          }
-        }
-      )
-      .then(res => {
-        var businesses = res.data.businesses;
-        console.log("Yelp API Response for Restaurants: ");
-        console.log(businesses);
-        this.setState({
-          loading: false,
-          businesses: businesses
-        });
-      })
-      .catch(error => {
-        this.setState({ loading: false, error });
-      });
-  };
+    this.state = {
+      businesses: this.props.location.state.businesses
+    }
+
+    this.state = {
+      loading: false,
+      error: false,
+      businesses: this.props.location.state.businesses
+    };
+
+    console.log("this.props in Restaurants comp: ");
+    console.log(this.props);
+  }
 
   componentDidMount() {
-    this.fetchRestaurants();
+    this.setState({ businesses: this.props.location.state.businesses });
   }
 
   render() {
     return (
+      <React.Fragment>
       <div>
         <Navbar />
         <div
@@ -71,17 +53,12 @@ class Restaurants extends React.Component {
           >
             
             <div>
-              {this.state.loading ? (
-                <p>Please hold, searching for your new favorite restaurants!</p>
-              ) : !this.state.error ? (
-                <RestaurantList businesses={this.state.businesses} />
-              ) : (
-                <p>Error trying to fetch restaurants from the Yelp API</p>
-              )}
+              <RestaurantList businesses={this.state.businesses} />
             </div>
           </div>
         </div>
       </div>
+    </React.Fragment>
     );
   }
 }

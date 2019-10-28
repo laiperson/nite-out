@@ -1,44 +1,36 @@
 import React from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
 import Navbar from "../../components/Navbar";
 import DirectionsList from "../../components/DirectionsList";
 
 class Directions extends React.Component {
-  state = {
-    loading: false,
-    error: false,
-    startAddress: this.props.location.state.startAddress,
-    business: this.props.location.state.business,
-    directions: null
-  };
+  constructor(props) {
+    super(props);
 
-  // This data is fetched at run time on the client.
-  fetchDirections = () => {
-    var addressString = `${this.state.business.location.display_address[0]}, ${this.state.business.location.display_address[1]}`;
-    this.setState({ loading: true });
-    axios
-      .get(
-        `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${this.state.startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${process.env.BING_API_KEY}`
-      )
-      .then(res => {
-        console.log("Response from Bing Maps: ");
-        console.log(res);
-        this.setState({
-          loading: false,
-          directions: res.data.resourceSets[0].resources[0]
-        });
-      })
-      .catch(error => {
-        this.setState({ loading: false, error: true });
-      });
-  };
+    this.state = {
+      loading: false,
+      error: false,
+      startAddress: "",
+      business: "",
+      directions: ""
+    };
+  }
 
   componentDidMount() {
-    console.log(this.props);
-    this.fetchDirections();
+    if (typeof window === "undefined") {
+      return;
+    }
+    this.setState(() => ({
+      directions: this.props.location.state.directions,
+      business: this.props.location.state.business,
+      startAddress: this.props.location.state.startAddress
+    }));
   }
 
   render() {
+    console.log("directions props");
+    console.log(this.props.location);
+
     return (
       <div>
         <Navbar />
@@ -62,15 +54,19 @@ class Directions extends React.Component {
               padding: "10px"
             }}
           >
-            Directions to { this.state.business.name }
+            Directions to {this.state.business.name}
           </h1>
           <div
-            style={{ textAlign: "center", width: "600px", margin: "50px auto" }}
+            style={{
+              textAlign: "center",
+              width: "600px",
+              margin: "50px auto"
+            }}
           >
             <div>
-              {this.state.loading ? (
+              {this.state.loading & this.state.directions ? (
                 <p>Please hold, searching for directions!</p>
-              ) : !this.state.error ? (
+              ) : this.state.directions ? (
                 <DirectionsList directions={this.state.directions} />
               ) : (
                 <p>Error trying to fetch directions from the Bing Maps API</p>
@@ -82,5 +78,9 @@ class Directions extends React.Component {
     );
   }
 }
+
+Directions.propTypes = {
+  location: PropTypes.object.isRequired
+};
 
 export default Directions;

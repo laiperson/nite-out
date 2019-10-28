@@ -3,8 +3,13 @@ import uploadcare from 'netlify-cms-media-library-uploadcare'
 import cloudinary from 'netlify-cms-media-library-cloudinary'
 
 import IndexPagePreview from './preview-templates/IndexPagePreview'
+import RestaurantPagePreview from './preview-templates/IndexPagePreview'
+import DirectionsPagePreview from './preview-templates/IndexPagePreview'
+
 
 CMS.registerMediaLibrary(uploadcare)
 CMS.registerMediaLibrary(cloudinary)
 
 CMS.registerPreviewTemplate('index', IndexPagePreview)
+CMS.registerPreviewTemplate('restaurant', RestaurantPagePreview);
+CMS.registerPreviewTemplate('directions', DirectionsPagePreview);

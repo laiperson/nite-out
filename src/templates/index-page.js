@@ -5,6 +5,7 @@ import { navigate, graphql } from "gatsby";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 import Layout from "../components/Layout";
 
@@ -31,18 +32,48 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const IndexPageTemplate = ({ image, title, subheading }) => {
+export const IndexPageTemplate = ({ image, title, subheading, location }) => {
   const classes = useStyles();
   const [find, setFind] = useState("");
   const [nearLocation, setNearLocation] = useState("");
 
+  const yelpToken = process.env.REACT_APP_YELP_API_KEY;
+
   function searchSubmit(event) {
     setFind("");
     setNearLocation("");
-    navigate("/restaurants/",
-    {
-      state: { find, nearLocation },
-    });
+    console.log(`Find: ${find} and nearLocation: ${nearLocation}. Yelp token: ${yelpToken}`);
+
+    fetchRestaurants();
+  }
+
+  function fetchRestaurants() {
+    console.log(
+      `searching for restaurants for: ${find} and near ${nearLocation} in index page`
+    );
+
+    axios
+      .get(
+        `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="${find}"&location="${nearLocation}"&limit=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${yelpToken}`,
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      )
+      .then(res => {
+        var businesses = res.data.businesses;
+        console.log("Yelp API Response for Restaurants: ");
+        console.log(businesses);
+
+        navigate("/restaurants/", {
+          state: { businesses }
+        });
+      })
+      .catch(error => {
+        console.log("error in fetchRestaurants");
+      });
   }
 
   return (
@@ -143,11 +174,11 @@ IndexPageTemplate.propTypes = {
   })
 };
 
-const IndexPage = ({ data }) => {
+const IndexPage = ({ data, location }) => {
   const { frontmatter } = data.markdownRemark;
 
   return (
-    <Layout>
+    <Layout location={location}>
       <IndexPageTemplate
         image={frontmatter.image}
         title={frontmatter.title}
@@ -156,6 +187,7 @@ const IndexPage = ({ data }) => {
         mainpitch={frontmatter.mainpitch}
         description={frontmatter.description}
         intro={frontmatter.intro}
+        location={location}
       />
     </Layout>
   );
