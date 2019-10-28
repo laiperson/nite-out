@@ -20,12 +20,13 @@ class Directions extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchDirections(this.props.location.state.startAddress, this.props.location.state.business);
     this.setState({ 
       startAddress: this.props.location.state.startAddress, 
-      business: this.props.location.state.business 
+      business: this.props.location.state.business
     });
-
-    this.fetchDirections(this.props.location.state.startAddress, this.props.location.state.business);
+    console.log("state.directions");
+    console.log(this.state);
   }
 
   // This data is fetched at run time on the client.
@@ -44,6 +45,8 @@ class Directions extends React.Component {
           loading: false,
           directions: res.data.resourceSets[0].resources[0]
         });
+        console.log("directions state:");
+        console.log(this.state.directions);
       })
       .catch(error => {
         this.setState({ loading: false, error: true });
@@ -73,7 +76,7 @@ class Directions extends React.Component {
             }}
           >
             <div>
-              {this.state.loading & this.state.directions ? (
+              {this.state.loading ? (
                 <p>Please hold, searching for directions!</p>
               ) : (this.state.directions !== null) & (this.state.business !== null) ? (
                 <>
@@ -83,7 +86,7 @@ class Directions extends React.Component {
                     backgroundColor: "#F7882F",
                     fontWeight: 600,
                     fontSize: "30px",
-                    width: "40%",
+                    width: "100%",
                     margin: "auto",
                     textAlign: "center",
                     padding: "10px"

@@ -11,6 +11,8 @@ class DirectionsList extends React.Component {
     };
   }
   render() {
+    console.log("this.props: ");
+    console.log(this.props);
     if (this.state.steps !== null) {
       var directions = this.state.steps.map(step => {
         return (

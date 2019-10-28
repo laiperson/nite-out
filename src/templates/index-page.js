@@ -44,36 +44,9 @@ export const IndexPageTemplate = ({ image, title, subheading, location }) => {
     setNearLocation("");
     console.log(`Find: ${find} and nearLocation: ${nearLocation}. Yelp token: ${yelpToken}`);
 
-    fetchRestaurants();
-  }
-
-  function fetchRestaurants() {
-    console.log(
-      `searching for restaurants for: ${find} and near ${nearLocation} in index page`
-    );
-
-    axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term="${find}"&location="${nearLocation}"&limit=10`,
-        {
-          headers: {
-            Authorization: `Bearer ${yelpToken}`,
-            "Access-Control-Allow-Origin": "*"
-          }
-        }
-      )
-      .then(res => {
-        var businesses = res.data.businesses;
-        console.log("Yelp API Response for Restaurants: ");
-        console.log(businesses);
-
-        navigate("/restaurants/", {
-          state: { businesses }
-        });
-      })
-      .catch(error => {
-        console.log("error in fetchRestaurants");
-      });
+    navigate("/restaurants/", {
+      state: { find: find, nearLocation: nearLocation }
+    });
   }
 
   return (

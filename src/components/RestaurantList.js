@@ -7,55 +7,28 @@ class RestaurantList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      businesses: this.props.businesses
-    }
-
     this.getDirections = this.getDirections.bind(this);
     this.fetchDirections = this.fetchDirections.bind(this);
   }
 
   getDirections(business) {
-    const startAddress = prompt('Please enter your starting address: ');
-    
-    this.fetchDirections(startAddress, business);
-  }
+    const startAddress = prompt("Please enter your starting address: ");
 
-  fetchDirections(startAddress, business) {
-    var bingToken = process.env.GATSBY_BING_API_KEY;
-    var addressString = `${business.location.display_address[0]}, ${business.location.display_address[1]}`;
-    console.log("here in fetchDirections in restaurant list page with token: " + bingToken);
-    var connectionString = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${bingToken}`;
-    console.log("connection string is: " + connectionString);
-    axios
-      .get(
-        connectionString
-      )
-      .then(res => {
-        console.log("Response from Bing Maps: ");
-        console.log(res);
+    while (startAddress === "") {
+      startAddress = prompt("Please enter a none empty starting address: ");
+    }
 
-        var directions = res.data.resourceSets[0].resources[0];
-
-        navigate("/directions", 
-        {
-          state: { startAddress, business, directions }
-        });
-      })
-      .catch(error => {
-        console.log("error in fetchDirections: " + error);
-        return null;
-      });
+    navigate("/directions", {
+      state: { startAddress, business }
+    });
   }
 
   render() {
-
     console.log("Props.businesses in RestaurantList.js: ");
     console.log(this.props);
 
-    if (this.state.businesses) {
-    
-      var businesses = this.state.businesses.map(business => {
+    if (this.props.businesses) {
+      var businesses = this.props.businesses.map(business => {
         return (
           <div
             style={{
@@ -106,7 +79,7 @@ class RestaurantList extends React.Component {
                     }}
                   >
                     <a href={business.url} style={{ color: "#F7882F" }}>
-                    {business.name}
+                      {business.name}
                     </a>
                   </strong>
                 </h1>
@@ -138,7 +111,8 @@ class RestaurantList extends React.Component {
               Get Directions
             </Button>
           </div>
-      )});
+        );
+      });
     }
 
     return (
