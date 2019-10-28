@@ -9,7 +9,7 @@ export const DirectionsPageTemplate = ({ location }) => {
   const [error, setError] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const bingToken = process.env.REACT_APP_BING_API_KEY;
+  const bingToken = process.env.GATSBY_BING_API_KEY;
   /*
   function fetchDirections() {
     console.log("here in fetchDirections in direction page with token: " + bingToken);

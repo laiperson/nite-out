@@ -37,7 +37,7 @@ export const IndexPageTemplate = ({ image, title, subheading, location }) => {
   const [find, setFind] = useState("");
   const [nearLocation, setNearLocation] = useState("");
 
-  const yelpToken = process.env.REACT_APP_YELP_API_KEY;
+  const yelpToken = process.env.GATSBY_YELP_API_KEY;
 
   function searchSubmit(event) {
     setFind("");

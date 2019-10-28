@@ -22,7 +22,7 @@ class RestaurantList extends React.Component {
   }
 
   fetchDirections(startAddress, business) {
-    var bingToken = process.env.REACT_APP_BING_API_KEY;
+    var bingToken = process.env.GATSBY_BING_API_KEY;
     var addressString = `${business.location.display_address[0]}, ${business.location.display_address[1]}`;
     console.log("here in fetchDirections in restaurant list page with token: " + bingToken);
     var connectionString = `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${bingToken}`;
