@@ -23,9 +23,6 @@ class RestaurantList extends React.Component {
   }
 
   render() {
-    console.log("Props.businesses in RestaurantList.js: ");
-    console.log(this.props);
-
     if (this.props.businesses) {
       var businesses = this.props.businesses.map(business => {
         return (

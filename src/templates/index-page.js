@@ -37,12 +37,9 @@ export const IndexPageTemplate = ({ image, title, subheading, location }) => {
   const [find, setFind] = useState("");
   const [nearLocation, setNearLocation] = useState("");
 
-  const yelpToken = process.env.GATSBY_YELP_API_KEY;
-
   function searchSubmit(event) {
     setFind("");
     setNearLocation("");
-    console.log(`Find: ${find} and nearLocation: ${nearLocation}. Yelp token: ${yelpToken}`);
 
     navigate("/restaurants/", {
       state: { find: find, nearLocation: nearLocation }

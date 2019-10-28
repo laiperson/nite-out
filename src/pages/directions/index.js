@@ -25,8 +25,6 @@ class Directions extends React.Component {
       startAddress: this.props.location.state.startAddress, 
       business: this.props.location.state.business
     });
-    console.log("state.directions");
-    console.log(this.state);
   }
 
   // This data is fetched at run time on the client.
@@ -36,7 +34,7 @@ class Directions extends React.Component {
     this.setState({ loading: true });
     axios
       .get(
-        `http://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${bingToken}`
+        `https://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=${startAddress}&waypoint.2=${addressString}&optimize=timeWithTraffic&distanceUnit=Mile&key=${bingToken}`
       )
       .then(res => {
         console.log("Response from Bing Maps: ");
