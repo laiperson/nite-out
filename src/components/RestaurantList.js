@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { navigate } from "@reach/router";
-import axios from "axios";
 
 class RestaurantList extends React.Component {
   constructor(props) {

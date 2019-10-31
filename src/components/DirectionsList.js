@@ -6,7 +6,7 @@ class DirectionsList extends React.Component {
 
     const { directions } = this.props;
 
-    if (directions.length == 0) {
+    if (directions.length === 0) {
       this.state = {
         steps: []
       };
@@ -41,7 +41,7 @@ class DirectionsList extends React.Component {
               }}
             >
               <h1 style={{ fontWeight: 600, color: "#6B7A8F" }}>
-                {Math.round(step.travelDistance / 0.01) * 0.01} mi.
+                {step.travelDistance.toPrecision(2)} mi
               </h1>
             </div>
 
